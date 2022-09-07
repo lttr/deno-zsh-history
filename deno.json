@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "test": "deno test --allow-read --allow-env mod_test.ts",
+    "clean": "rm -rf npm/"
+  }
+}

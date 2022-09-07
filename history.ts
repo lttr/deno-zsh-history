@@ -7,7 +7,7 @@ const pathToHistory = path.join(home, historyFileName);
 export async function zshHistory(
   filePath: string = pathToHistory,
 ): Promise<HistoryRecord[]> {
-  const historyFileContents: string[] = await readHistoryFile(filePath);
+  const historyFileContents: string[] = await readFileLines(filePath);
   const historyCleaned: string[] = reduceMultilineCommands(historyFileContents);
   return parseHistory(historyCleaned);
 }
@@ -44,21 +44,21 @@ function reduceMultilineCommands(rawHistory: string[]) {
   return reducedHistory;
 }
 
-async function readHistoryFile(pathToHistoryFile: string) {
-  let rawHistory: string[] = [];
-  try {
-    const historyString = await Deno.readTextFile(pathToHistoryFile);
-    rawHistory = historyString.split("\n");
-  } catch (err) {
-    throw new Error(
-      `Zsh history file not found on path '${pathToHistoryFile}'`,
-      { cause: err },
-    );
-  }
-  return rawHistory;
-}
-
 export interface HistoryRecord {
   time: Date | null;
   command: string;
+}
+
+async function readFileLines(pathToFile: string): Promise<string[]> {
+  let fileLines: string[] = [];
+  try {
+    const fileString = await Deno.readTextFile(pathToFile);
+    fileLines = fileString.split("\n");
+  } catch (err) {
+    throw new Error(
+      `File not found on path '${pathToFile}'`,
+      { cause: err },
+    );
+  }
+  return fileLines;
 }
