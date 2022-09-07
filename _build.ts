@@ -23,7 +23,7 @@ await build({
     lib: ["esnext"],
   },
   package: {
-    name: "@lttr/shell-aliases",
+    name: "@lttr/zsh-history",
     version: Deno.args[0],
     description: "Retrieve and parse zsh history from its common location",
     license: "MIT",
